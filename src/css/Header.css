@@ -1,8 +1,5 @@
 nav.navbar {
-    position: fixed;
-    width: 400px;
     height: 50px;
-    z-index: 9;
 }
 
 nav.navbar > div > * {
