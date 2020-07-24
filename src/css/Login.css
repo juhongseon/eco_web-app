@@ -1,0 +1,22 @@
+div#login-container {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 999999999;
+    width: 400px;
+    height: 600px;
+    background-color: rgba(220,220,220,0.85);
+}
+
+div#login-container form {
+    position: relative;
+    top: 250px;
+    left: 100px;
+    width: 200px;
+}
+
+div#login-container > form > input {
+    width: 100px;
+    border: 1px solid rgb(204,204,204);
+    border-radius: 4px;
+}

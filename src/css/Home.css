@@ -1,0 +1,22 @@
+div#home-container {
+    margin-top: 50px;
+}
+
+div#home-container > * {
+    margin: 15px 0px;
+    padding: 0px;
+}
+
+div#home-filter button:focus {
+    outline: none;
+}
+
+div#home-optgrp1 {
+    text-align: left;
+    padding: 0px;
+}
+
+div#home-optgrp2 {
+    text-align: right;
+    padding: 0px;
+}
