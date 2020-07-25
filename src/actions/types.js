@@ -1,10 +1,4 @@
-export const SAMPLE_TYPE = 'SAMPLE_TYPE'
-
-export const SET_HOME_FILTER1 = 'SET_HOME_FILTER1'
-export const SET_HOME_FILTER2 = 'SET_HOME_FILTER2'
-export const SET_KEYWORD = 'SET_KEYWORD'
-export const ADD_KEYWORD = 'ADD_KEYWORD'
-export const FETCH_NEXT_PAGE = 'FETCH_NEXT_PAGE'
+export const FETCH_NEW_RCMD = 'FETCH_NEW_RCMD'
 
 export const SHOW_MODAL = 'SHOW_MODAL'
 export const HIDE_MODAL = 'HIDE_MODAL'

@@ -5,25 +5,26 @@ import store from './store/store'
 import Header from './components/commons/Header'
 import Home from './components/home/Home'
 import My from './components/my/My';
-import Modal from './components/commons/Modal';
-import Additional from './components/commons/Additional';
-import Login from './components/commons/Login';
-import Suggest from './components/commons/Suggest';
+import Author from './components/detail/Author';
+import Tag from './components/detail/Tag';
+import Emoticon from './components/detail/Emoticon';
+import Popular from './components/popular/Popular';
 
 function App() {
   return (
     <Provider store={store}>
       <Router>
-        {/*<Login/>*/}
         <Header/>
-        {/*<Additional/>*/}
         {/*<Suggest/>*/}
-        {/*<Modal/>*/}
-        {/*<Switch>*/}
-        {/*  <Route path={'/Home'} component={Home}/>*/}
-        {/*  <Route path={'/My'} component={My}/>*/}
-        {/*  <Route component={Home}/>*/}
-        {/*</Switch>*/}
+        <Switch>
+         <Route path={'/Home'} component={Home}/>
+         <Route path={'/Popular'} component={Popular}/>
+         <Route path={'/My'} component={My}/>
+         <Route path={'/Author/:id'} component={Author}/>
+         <Route path={'/Tag/:name'} component={Tag}/>
+         <Route path={'/Emoticon/:number'} component={Emoticon}/>
+         <Route component={Home}/>
+        </Switch>
       </Router>
     </Provider>
   );

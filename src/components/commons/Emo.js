@@ -1,6 +1,5 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setImgsrc } from '../../actions/modalActions'
 import { addFavorite, removeFavorite } from '../../actions/myActions'
 import { toAnimateImgsrc } from '../../const/const'
 
@@ -11,7 +10,7 @@ export default function Emo(props) {
     const favArr = useSelector(state=>state.my.favorite)
 
     return(
-        <div className="col-xs-4" style={{"padding":"4px"}}>
+        <div className="col-xs-3">
             <div className="thumbnail">
                 <img
                     onMouseEnter={(e)=>{
@@ -20,7 +19,7 @@ export default function Emo(props) {
                     onMouseLeave={(e)=>{
                         e.target.setAttribute('src',imgsrc)
                     }}
-                    onClick={()=>{dispatch(setImgsrc(imgsrc))}} src={imgsrc} alt="Lights" style={{"width":"100%","cursor":"pointer"}}
+                    onClick={()=>{}} src={imgsrc} style={{"width":"100%","cursor":"pointer"}}
                 />
                 <div className="text-right">
                     {
