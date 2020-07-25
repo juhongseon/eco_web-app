@@ -12,7 +12,7 @@ export default function Tile(props) {
     thumbnail = 'https://interactive-examples.mdn.mozilla.net/media/examples/grapefruit-slice-332-332.jpg'
 
     return (
-        <div onClick={()=>{}} className="col-xs-4" style={{"padding":"4px","cursor":"pointer"}}>
+        <div onClick={()=>{}} className={props.smaller===true ? "col-xs-3" : "col-xs-4"} style={{"padding":"4px","cursor":"pointer"}}>
             <div className="thumbnail">
                 <img src={thumbnail} alt="Lights" style={{"width":"100%"}}
                     onMouseEnter={(e)=>{
