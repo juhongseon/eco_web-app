@@ -1,18 +1,12 @@
+// Home
 export const FETCH_NEW_RCMD = 'FETCH_NEW_RCMD'
 
-export const SHOW_MODAL = 'SHOW_MODAL'
-export const HIDE_MODAL = 'HIDE_MODAL'
-export const SET_IMGSRC = 'SET_IMGSRC'
+// Popular
+export const SET_POP_FILTER = 'SET_POP_FILTER'
 
 export const SET_FAVORITE = 'SET_FAVORITE'
 export const ADD_FAVORITE = 'ADD_FAVORITE'
 export const REMOVE_FAVORITE = 'REMOVE_FAVORITE'
-
-export const SHOW_ADDITIONAL = 'SHOW_ADDITIONAL'
-export const HIDE_ADDITIONAL = 'HIDE_ADDITIONAL'
-
-export const SHOW_LOGIN = 'SHOW_LOGIN'
-export const HIDE_LOGIN = 'HIDE_LOGIN'
 
 export const SHOW_SUGGEST = 'SHOW_SUGGEST'
 export const HIDE_SUGGEST = 'HIDE_SUGGEST'

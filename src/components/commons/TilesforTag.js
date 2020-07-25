@@ -11,7 +11,7 @@ export default function TilesforTag(props) {
     return (
         <div className="row tiles-for-tag">
             <div className="col-xs-3">
-                <NavLink to={'/Tag/'+'tag'}>#tag</NavLink>
+                {props.rank && props.rank+'. '}<NavLink to={'/Tag/'+'tag'}>#tag</NavLink>
             </div>
             <div className="col-xs-8">
                 {html}

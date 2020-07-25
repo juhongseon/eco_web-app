@@ -8,9 +8,9 @@ export default function TilesforAuthor(props) {
 
     return (
         <div className="row tiles-for-author">
-            <div className="col-xs-3" style={{"height":"inherit","margin":"auto 0px"}}>
+            <div className="col-xs-3">
                 <div className="col-xs-6 profile">
-                    <img src="https://image.shutterstock.com/image-vector/user-login-authenticate-icon-human-260nw-1365533969.jpg"/>
+                    {props.rank && props.rank+'. '}<img src="https://image.shutterstock.com/image-vector/user-login-authenticate-icon-human-260nw-1365533969.jpg"/>
                 </div>
             </div>
             <div className="col-xs-8">

@@ -1,3 +1,7 @@
 div#popular-container {
     margin-top: 50px;
 }
+
+div#popular-container > .row {
+    margin-top: 25px;
+}
