@@ -44,7 +44,7 @@ app.get('/detail_emoticon',(req,res)=>{
 app.get('/tag_list',(req,res)=>{
     mc.connect(mUrl,(err,client)=>{
         var db = client.db('eco')
-        db.collection('tag').find({})
+        db.collection('tag').find({}).sort({'name':1})
             .toArray((err,docs)=>{
                 res.json(docs)
                 client.close()

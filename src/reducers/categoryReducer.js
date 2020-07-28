@@ -1,15 +1,15 @@
-import { setCateSideTab } from "../actions/categoryActions";
-import { TOGGLE_CATE_SELECTED } from "../actions/types";
+import { TOGGLE_CATE_SELECTED, SET_CATE_SIDE_TAB, SET_CATE_SIDE_SEARCH } from "../actions/types";
 
 const initialState = {
     sideTab: 'tag',
     sideList: [],
-    selected: []
+    selected: [],
+    sideSearch: ''
 }
 
 export default function(state=initialState,action) {
     switch(action.type) {
-        case setCateSideTab:
+        case SET_CATE_SIDE_TAB:
             return {
                 ...state,
                 sideTab: action.payload.tabname,
@@ -26,6 +26,11 @@ export default function(state=initialState,action) {
                     ...state,
                     selected: state.selected.concat(action.payload)
                 }
+        case SET_CATE_SIDE_SEARCH:
+            return {
+                ...state,
+                sideSearch: action.payload
+            }
         default: return state
     }
 }

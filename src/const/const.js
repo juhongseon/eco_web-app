@@ -23,3 +23,22 @@ export const getRankColor = (rank)=>{
             }
         }
 }
+
+export const sepKor = (han)=>{
+    let hanArr = ['ㄱ','ㄴ','ㄷ','ㄹ','ㅁ','ㅂ','ㅅ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ']
+
+    let res = ''
+
+    for(let i=0; i<han.length; i++) {
+        let temp1 = ((han.charCodeAt(i) - parseInt('0xac00',16)) / 28) / 21
+        res += '|'+String.fromCharCode(temp1 + parseInt('0x1100',16))
+
+        let temp2 = ((han.charCodeAt(i) - parseInt('0xac00',16)) / 28) % 21
+        res += '|'+String.fromCharCode(temp2 + parseInt('0x1161',16))
+
+        let temp3 = ((han.charCodeAt(i) - parseInt('0xac00',16))) % 28
+        res += '|'+String.fromCharCode(temp3 + parseInt('0x11A8',16) - 1)
+    }
+
+    return res.replace(/\\|ᆧ/g,'')
+}
