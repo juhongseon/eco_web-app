@@ -11,10 +11,7 @@ export default function CateSide() {
     const sideList = category.sideList
     const keyword = category.sideSearch
 
-    const matchedList = sideList.filter(item=>{
-        console.log(sepKor(item.name)+' - '+sepKor(keyword))
-        return sepKor(item.name).includes(sepKor(keyword))
-    })
+    const matchedList = sideList.filter(item=>sepKor(item.name).includes(sepKor(keyword)))
 
     useEffect(()=>{
         dispatch(setCateSideTab('tag'))
