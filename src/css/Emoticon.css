@@ -1,3 +1,13 @@
 div#emoticon-container {
     margin-top: 50px;
 }
+
+div#emoticon-container > .row {
+    margin-top: 25px;
+}
+
+div#emoticon-container .profile img {
+    border-radius: 50px;
+    width: 100px;
+    height: 100px;
+}

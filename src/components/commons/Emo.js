@@ -10,7 +10,7 @@ export default function Emo(props) {
     const favArr = useSelector(state=>state.my.favorite)
 
     return(
-        <div className="col-xs-3">
+        <div className={props.offset===true ? "col-xs-offset-1 col-xs-2" : "col-xs-2"}>
             <div className="thumbnail">
                 <img
                     onMouseEnter={(e)=>{

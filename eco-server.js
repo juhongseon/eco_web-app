@@ -20,8 +20,20 @@ app.listen(3355, ()=>{
 app.get('/home',(req,res)=>{
     mc.connect(mUrl,(err,client)=>{
         var db = client.db('eco')
-        db.collection('emo').find({})
+        db.collection('emo').find({}).limit(6)
             .toArray((err,docs)=>{
+                res.json(docs)
+                client.close()
+            })
+    })
+})
+
+app.get('/detail_emoticon',(req,res)=>{
+    var title = req.query.title
+
+    mc.connect(mUrl,(err,client)=>{
+        var db = client.db('eco')
+        db.collection('emo').findOne({title:title},(err,docs)=>{
                 res.json(docs)
                 client.close()
             })

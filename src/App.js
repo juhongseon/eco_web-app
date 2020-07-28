@@ -9,16 +9,20 @@ import Author from './components/detail/Author';
 import Tag from './components/detail/Tag';
 import Emoticon from './components/detail/Emoticon';
 import Popular from './components/popular/Popular';
+import ScrollToTop from './components/commons/ScrollToTop';
+import Category from './components/category/Category';
 
 function App() {
   return (
     <Provider store={store}>
       <Router>
+        <ScrollToTop/>
         <Header/>
         {/*<Suggest/>*/}
         <Switch>
          <Route path={'/Home'} component={Home}/>
          <Route path={'/Popular'} component={Popular}/>
+         <Route path={'/Category'} component={Category}/>
          <Route path={'/My'} component={My}/>
          <Route path={'/Author/:id'} component={Author}/>
          <Route path={'/Tag/:name'} component={Tag}/>

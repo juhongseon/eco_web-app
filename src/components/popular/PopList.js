@@ -17,9 +17,11 @@ export default function PopList() {
                 return sample.map((m,idx)=><TilesforTag rank={idx+1} data={sample}/>)
             case 'author':
                 return sample.map((m,idx)=><TilesforAuthor rank={idx+1} data={sample}/>)
-            default: return sample.map(m=><Tile
+            default: return sample.map((m,idx)=><Tile
                         title={m.title} author={m.author}
                         files={m.files} smaller={true}
+                        offset={idx%5===0 ? true : false}
+                        rank={idx+1}
                     />)
         }
     })()
