@@ -1,0 +1,20 @@
+div#category-container {
+    margin-top: 50px;
+}
+
+div#category-container > .row {
+    margin-top: 25px;
+}
+
+div#cate-side {
+    border: 1px solid rgb(221,221,221);
+    border-radius: 4px;
+}
+
+div#cate-side-tab > button {
+    margin: 5px 3px;
+}
+
+div#cate-list {
+    padding: 5px;
+}

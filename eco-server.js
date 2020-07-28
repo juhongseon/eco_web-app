@@ -33,7 +33,19 @@ app.get('/detail_emoticon',(req,res)=>{
 
     mc.connect(mUrl,(err,client)=>{
         var db = client.db('eco')
-        db.collection('emo').findOne({title:title},(err,docs)=>{
+        db.collection('emo')
+            .findOne({title:title},(err,docs)=>{
+                res.json(docs)
+                client.close()
+            })
+    })
+})
+
+app.get('/tag_list',(req,res)=>{
+    mc.connect(mUrl,(err,client)=>{
+        var db = client.db('eco')
+        db.collection('tag').find({})
+            .toArray((err,docs)=>{
                 res.json(docs)
                 client.close()
             })

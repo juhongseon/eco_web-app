@@ -11,6 +11,7 @@ import Emoticon from './components/detail/Emoticon';
 import Popular from './components/popular/Popular';
 import ScrollToTop from './components/commons/ScrollToTop';
 import Category from './components/category/Category';
+import Search from './components/search/Search';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
          <Route path={'/Home'} component={Home}/>
          <Route path={'/Popular'} component={Popular}/>
          <Route path={'/Category'} component={Category}/>
+         <Route path={'/Search'} component={Search}/>
          <Route path={'/My'} component={My}/>
          <Route path={'/Author/:id'} component={Author}/>
          <Route path={'/Tag/:name'} component={Tag}/>
