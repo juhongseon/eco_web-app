@@ -7,6 +7,16 @@ const ObjectID = require("mongodb").ObjectID
 
 const mUrl = 'mongodb://localhost:27017'
 
+const shuffleArray = (origin)=>{
+    let res = []
+    for(let i=origin.length-1; i>=0; i--) {
+        let random = Math.floor(Math.random()*i)
+        res = res.concat(origin[random])
+        origin.splice(random,1)
+    }
+    return res
+}
+
 app.all('/*', function(req,res,next){
     res.header("Access-Control-Allow-Origin","*")
     res.header("Access-Control-Allow-Headers","X-Requested-With")
@@ -17,12 +27,12 @@ app.listen(3355, ()=>{
     console.log("Eco Server Start at Port:3355","http://localhost:3355")
 })
 
-app.get('/home',(req,res)=>{
+app.get('/rcmd_tags',(req,res)=>{
     mc.connect(mUrl,(err,client)=>{
         var db = client.db('eco')
-        db.collection('emo').find({}).limit(6)
+        db.collection('tag').find({})
             .toArray((err,docs)=>{
-                res.json(docs)
+                res.json(shuffleArray(docs).slice(0,5))
                 client.close()
             })
     })
@@ -47,6 +57,31 @@ app.get('/tag_list',(req,res)=>{
         db.collection('tag').find({}).sort({'name':1})
             .toArray((err,docs)=>{
                 res.json(docs)
+                client.close()
+            })
+    })
+})
+
+app.get('/search_by_tag',(req,res)=>{
+    var name = req.query.name
+
+    mc.connect(mUrl,(err,client)=>{
+        var db = client.db('eco')
+        db.collection('emo').find({"tags":name})
+            .toArray((err,docs)=>{
+                res.json(shuffleArray(docs))
+                client.close()
+            })
+    })
+})
+
+app.get('/search_by_category',(req,res)=>{
+    var tags = req.query.tags.split(',')
+    mc.connect(mUrl,(err,client)=>{
+        var db = client.db('eco')
+        db.collection('emo').find(tags[0]==''?{}:{tags:{$all:tags}})
+            .toArray((err,docs)=>{
+                res.json(shuffleArray(docs))
                 client.close()
             })
     })

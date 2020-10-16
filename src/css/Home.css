@@ -17,3 +17,13 @@ div.tiles-for-author .profile img {
     width: 100px;
     height: 100px;
 }
+
+div.tiles-more {
+    margin: 60px 10px;
+    width: 45px;
+    font-size: 30px;
+    color: white;
+    background-color: rgb(235,235,235);
+    text-align: center;
+    border-radius: 20px;
+}

@@ -12,10 +12,10 @@ export default function Home() {
     },[])
 
     const home = useSelector(state=>state.home)
-    const sample = home.sample_data
+    const tags = home.rcmdTags
 
-    const html_tag = sample.slice(0,5).map(m=><TilesforTag data={sample}/>)
-    const html_author = sample.slice(0,5).map(m=><TilesforAuthor data={sample}/>)
+    const html_tag = tags.map((m,idx)=><TilesforTag name={m.name}/>)
+    //const html_author = sample.slice(0,5).map((m,idx)=><TilesforAuthor name={sample[idx].author} idx={idx} data={sample}/>)
 
     return (
         <div id="home-container" className="container">
@@ -25,9 +25,9 @@ export default function Home() {
             <div className="row">
                 {html_tag}
             </div>
-            <div className="row">
+            {/* <div className="row">
                 {html_author}
-            </div>
+            </div> */}
         </div>
     )
 }

@@ -24,6 +24,7 @@ export const getRankColor = (rank)=>{
         }
 }
 
+// https://winplz.tistory.com/entry/%ED%95%9C%EA%B8%80-%EC%9E%90%EC%9D%8C-%EB%B9%84%EA%B5%90%EA%B0%99%EC%A7%80%EB%A7%8C-%EB%8B%A4%EB%A5%B8-%EC%9E%90%EC%9D%8C%EB%93%A4
 export const sepKor = (han)=>{
     if(han.length===1 && han.charCodeAt(0)>=12593 && han.charCodeAt(0)<=12622) {
         let hanMap = {
@@ -38,6 +39,7 @@ export const sepKor = (han)=>{
 
     let res = ''
 
+    // https://gist.github.com/sooop/4958873
     for(let i=0; i<han.length; i++) {
         let temp1 = ((han.charCodeAt(i) - parseInt('0xac00',16)) / 28) / 21
         res += '|'+String.fromCharCode(temp1 + parseInt('0x1100',16))
@@ -50,4 +52,14 @@ export const sepKor = (han)=>{
     }
 
     return res.replace(/\\|ᆧ/g,'')
+}
+
+export const shuffleArray = (origin)=>{
+    let res = []
+    for(let i=origin.length-1; i>=0; i--) {
+        let random = Math.floor(Math.random()*i)
+        res = res.concat(origin[random])
+        origin.splice(random,1)
+    }
+    return res
 }

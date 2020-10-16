@@ -1,9 +1,7 @@
 import { FETCH_NEW_RCMD } from "../actions/types";
 
 const initialState = {
-    sample_data: [],
-    tags: [],
-    authors: []
+    rcmdTags: []
 }
 
 export default function(state=initialState,action) {
@@ -11,8 +9,7 @@ export default function(state=initialState,action) {
         case FETCH_NEW_RCMD:
             return {
                 ...state,
-                sample_data: action.payload.concat(action.payload)
-                .concat(action.payload).concat(action.payload)
+                rcmdTags: action.payload
             }
         default: return state
     }
