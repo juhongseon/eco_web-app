@@ -139,7 +139,7 @@ app.get('/signin',(req,res)=>{
                     var salt = buf.toString('base64')
 
                     crypto.pbkdf2(pwd,salt,184265,64,'sha512',(err,key)=>{
-                        db.collection('user').insertOne({id:id,salt:salt,key:key.toString('base64'),auth:'none'},()=>{client.close()})
+                        db.collection('user').insertOne({id:id,salt:salt,key:key.toString('base64'),auth:'none',favorites:[]},()=>{client.close()})
                         res.json('success')
                     })
                 })
@@ -181,14 +181,55 @@ app.get('/signout',(req,res)=>{
     })
 })
 
-app.get('/crypto',(req,res)=>{
-    var string = req.query.string
+app.get('/add_favorites',(req,res)=>{
+    var auth = req.query.auth
+    var imgsrc = req.query.imgsrc
 
-    crypto.randomBytes(64,(err,buf)=>{
-        var salt = buf.toString('base64')
+    mc.connect(mUrl,(err,client)=>{
+        var db = client.db('eco')
 
-        crypto.pbkdf2(string,salt,184265,64,'sha512',(err,key)=>{
-            res.json({salt:salt,key:key.toString('base64')})
+        db.collection('user').countDocuments({auth:auth},(err,idCount)=>{
+            if(idCount==1) {
+                db.collection('user').findOne({auth:auth},{favorites:1},(err,dbData)=>{
+                    var dbFavorites = dbData.favorites
+                    dbFavorites = dbFavorites.filter(str=>str!=imgsrc)
+                    var modified = [imgsrc,...dbFavorites]
+
+                    db.collection('user').updateOne({auth:auth},{$set:{favorites:modified}})
+                    
+                    res.json('success')
+                    client.close()
+                })
+            } else {
+                res.json('fail')
+                client.close()
+            }
+        })
+    })
+})
+
+app.get('/remove_favorites',(req,res)=>{
+    var auth = req.query.auth
+    var imgsrc = req.query.imgsrc
+
+    mc.connect(mUrl,(err,client)=>{
+        var db = client.db('eco')
+
+        db.collection('user').countDocuments({auth:auth},(err,idCount)=>{
+            if(idCount==1) {
+                db.collection('user').findOne({auth:auth},{favorites:1},(err,dbData)=>{
+                    var dbFavorites = dbData.favorites
+                    var modified = dbFavorites.filter(str=>str!=imgsrc)
+
+                    db.collection('user').updateOne({auth:auth},{$set:{favorites:modified}})
+
+                    res.json('success')
+                    client.close()
+                })
+            } else {
+                res.json('fail')
+                client.close()
+            }
         })
     })
 })
