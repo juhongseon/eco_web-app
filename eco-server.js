@@ -148,6 +148,39 @@ app.get('/signin',(req,res)=>{
     })
 })
 
+app.get('/signout',(req,res)=>{
+    var id = req.query.id
+    var pwd = req.query.pwd
+    if(id==undefined|pwd==undefined) {
+        res.json('error')
+        return
+    }
+
+    mc.connect(mUrl,(err,client)=>{
+        var db = client.db('eco')
+
+        db.collection('user').countDocuments({id:id},(err,idCount)=>{
+            if(idCount==1) {
+                db.collection('user').findOne({id:id},{salt:1,key:1},(err,dbData)=>{
+                    crypto.pbkdf2(pwd,dbData.salt,184265,64,'sha512',(err,key)=>{
+                        if(key.toString('base64')==dbData.key) {
+                            db.collection('user').deleteOne({id:id})
+                            res.json('success')
+                        }
+                        else {
+                            res.json('nopwd')
+                            client.close()
+                        }
+                    })
+                })
+            } else {
+                res.json('noid')
+                client.close()
+            }
+        })
+    })
+})
+
 app.get('/crypto',(req,res)=>{
     var string = req.query.string
 
