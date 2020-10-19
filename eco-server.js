@@ -106,7 +106,7 @@ app.get('/login',(req,res)=>{
                         if(key.toString('base64')==dbData.key) {
                             var auth = crypto.createHash('sha256').update(Date.now()+id).digest('base64')
 
-                            db.collection('user').updateOne({id:id},{$set:{auth:auth}},(err,res)=>{client.close})
+                            db.collection('user').updateOne({id:id},{$set:{auth:auth}},()=>{client.close})
                             res.json(auth)
                         }
                         else {
@@ -118,6 +118,31 @@ app.get('/login',(req,res)=>{
             } else {
                 res.json('noid')
                 client.close()
+            }
+        })
+    })
+})
+
+app.get('/signin',(req,res)=>{
+    var id = req.query.id
+    var pwd = req.query.pwd
+
+    mc.connect(mUrl,(err,client)=>{
+        var db = client.db('eco')
+
+        db.collection('user').countDocuments({id:id},(err,idCount)=>{
+            if(idCount==1) {
+                res.json('fail')
+                client.close()
+            } else {
+                crypto.randomBytes(64,(err,buf)=>{
+                    var salt = buf.toString('base64')
+
+                    crypto.pbkdf2(pwd,salt,184265,64,'sha512',(err,key)=>{
+                        db.collection('user').insertOne({id:id,salt:salt,key:key.toString('base64'),auth:'none'},()=>{client.close()})
+                        res.json('success')
+                    })
+                })
             }
         })
     })
