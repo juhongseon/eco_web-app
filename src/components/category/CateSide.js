@@ -23,7 +23,7 @@ export default function CateSide() {
         <div id="cate-side" className="col-xs-2">
             <div id="cate-side-tab" className="row text-center">
                 <button onClick={()=>{dispatch(setCateSideTab('tag'))}} className={sideTab==='tag' ? 'btn' : 'btn btn-default'}>태그</button>
-                <button className={sideTab==='author' ? 'btn' : 'btn btn-default'}>작가</button>
+                <button onClick={()=>{dispatch(setCateSideTab('author'))}} className={sideTab==='author' ? 'btn' : 'btn btn-default'}>작가</button>
             </div>
             <div id="cate-side-search" className="row" style={{"marginTop":"5px"}}>
                 <input 

@@ -4,14 +4,14 @@ import { useDispatch, useSelector } from 'react-redux'
 
 export default function CateSideBtn(props) {
     const dispatch = useDispatch()
-    const selected = useSelector(state=>state.category.selected)
+    const category = useSelector(state=>state.category)
 
     return (
         <button
             onClick={()=>{dispatch(toggleCateSelected(props.name))}}
-            className={selected.includes(props.name) ? "btn" : "btn btn-default"}
+            className={category.selected.includes(props.name) ? "btn" : "btn btn-default"}
             style={{"margin":"5px"}}>
-            #{props.name}
+            {category.sideTab=='tag' ? '#'+props.name : props.name}
         </button>
     )
 }

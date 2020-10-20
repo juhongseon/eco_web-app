@@ -246,3 +246,16 @@ app.get('/rcmd_emoticons',(req,res)=>{
             })
     })
 })
+
+app.get('/author_list',(req,res)=>{
+    mc.connect(mUrl,(err,client)=>{
+        var db = client.db('eco')
+
+        db.collection('emo').find({}).sort({author:1})
+            .toArray((err,docs)=>{
+                var docs = docs.map((m)=>{return{name:m.author}})
+                res.json(docs)
+                client.close()
+            })
+    })
+})
