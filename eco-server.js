@@ -298,3 +298,15 @@ app.get('/home',(req,res)=>{
             })
     })
 })
+
+app.get('/title_list',(req,res)=>{
+    mc.connect(mUrl,(err,client)=>{
+        var db = client.db('eco')
+
+        db.collection('emo').find({})
+            .toArray((err,docs)=>{
+                res.json(docs.map((m)=>{return {name:m.title}}))
+                client.close()
+            })
+    })
+})
