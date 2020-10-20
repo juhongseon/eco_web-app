@@ -286,3 +286,15 @@ app.get('/search_by_authorlist',(req,res)=>{
             })
     })
 })
+
+app.get('/home',(req,res)=>{
+    mc.connect(mUrl,(err,client)=>{
+        var db = client.db('eco')
+
+        db.collection('emo').find({})
+            .toArray((err,docs)=>{
+                res.json(docs)
+                client.close()
+            })
+    })
+})
