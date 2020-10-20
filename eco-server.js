@@ -78,9 +78,10 @@ app.get('/search_by_tag',(req,res)=>{
 
 app.get('/search_by_category',(req,res)=>{
     var tags = req.query.tags.split(',')
+
     mc.connect(mUrl,(err,client)=>{
         var db = client.db('eco')
-        db.collection('emo').find(tags[0]==''?{}:{tags:{$all:tags}})
+        db.collection('emo').find(tags[0]=='' ? {} : {tags:{$all:tags}})
             .toArray((err,docs)=>{
                 res.json(shuffleArray(docs))
                 client.close()
@@ -267,6 +268,20 @@ app.get('/rcmd_authors',(req,res)=>{
             .toArray((err,docs)=>{
                 var authors = docs.map(m=>m.author)
                 res.json(shuffleArray(authors).slice(0,5))
+                client.close()
+            })
+    })
+})
+
+app.get('/search_by_authorlist',(req,res)=>{
+    var authorList = req.query.authors.split(',')
+
+    mc.connect(mUrl,(err,client)=>{
+        var db = client.db('eco')
+
+        db.collection('emo').find(authorList[0]=='' ? {} : {author:{$in:authorList}})
+            .toArray((err,docs)=>{
+                res.json(docs)
                 client.close()
             })
     })
