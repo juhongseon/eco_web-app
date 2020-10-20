@@ -233,3 +233,16 @@ app.get('/remove_favorites',(req,res)=>{
         })
     })
 })
+
+app.get('/rcmd_emoticons',(req,res)=>{
+    mc.connect(mUrl,(err,client)=>{
+        var db = client.db('eco')
+
+        db.collection('emo').find({})
+            .toArray((err,docs)=>{
+                var docs = shuffleArray(docs)
+                res.json(docs.slice(0,5))
+                client.close()
+            })
+    })
+})
