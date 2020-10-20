@@ -240,8 +240,7 @@ app.get('/rcmd_emoticons',(req,res)=>{
 
         db.collection('emo').find({})
             .toArray((err,docs)=>{
-                var docs = shuffleArray(docs)
-                res.json(docs.slice(0,5))
+                res.json(shuffleArray(docs).slice(0,5))
                 client.close()
             })
     })
@@ -255,6 +254,19 @@ app.get('/author_list',(req,res)=>{
             .toArray((err,docs)=>{
                 var docs = docs.map((m)=>{return{name:m.author}})
                 res.json(docs)
+                client.close()
+            })
+    })
+})
+
+app.get('/rcmd_authors',(req,res)=>{
+    mc.connect(mUrl,(err,client)=>{
+        var db = client.db('eco')
+
+        db.collection('emo').find({})
+            .toArray((err,docs)=>{
+                var authors = docs.map(m=>m.author)
+                res.json(shuffleArray(authors).slice(0,5))
                 client.close()
             })
     })
