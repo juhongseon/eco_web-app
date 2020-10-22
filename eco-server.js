@@ -28,17 +28,57 @@ app.listen(3355, ()=>{
     console.log("Eco Server Start at Port:3355","http://localhost:3355")
 })
 
-app.get('/rcmd_tags',(req,res)=>{
+// list
+app.get('/home',(req,res)=>{
+    var filter2 = req.query.filter2
+
     mc.connect(mUrl,(err,client)=>{
         var db = client.db('eco')
-        db.collection('tag').find({})
+
+        db.collection('emo').find({})
             .toArray((err,docs)=>{
-                res.json(shuffleArray(docs).slice(0,5))
+                if(filter2=='recent') docs = docs.reverse()
+
+                res.json(docs)
+                client.close()
+            })
+    })
+})
+app.get('/tag_list',(req,res)=>{
+    mc.connect(mUrl,(err,client)=>{
+        var db = client.db('eco')
+        db.collection('tag').find({}).sort({'name':1})
+            .toArray((err,docs)=>{
+                res.json(docs)
+                client.close()
+            })
+    })
+})
+app.get('/author_list',(req,res)=>{
+    mc.connect(mUrl,(err,client)=>{
+        var db = client.db('eco')
+
+        db.collection('emo').find({}).sort({author:1})
+            .toArray((err,docs)=>{
+                var docs = docs.map((m)=>{return{name:m.author}})
+                res.json(docs)
+                client.close()
+            })
+    })
+})
+app.get('/title_list',(req,res)=>{
+    mc.connect(mUrl,(err,client)=>{
+        var db = client.db('eco')
+
+        db.collection('emo').find({})
+            .toArray((err,docs)=>{
+                res.json(docs.map((m)=>{return {name:m.title}}))
                 client.close()
             })
     })
 })
 
+// search
 app.get('/detail_emoticon',(req,res)=>{
     var title = req.query.title
 
@@ -51,18 +91,6 @@ app.get('/detail_emoticon',(req,res)=>{
             })
     })
 })
-
-app.get('/tag_list',(req,res)=>{
-    mc.connect(mUrl,(err,client)=>{
-        var db = client.db('eco')
-        db.collection('tag').find({}).sort({'name':1})
-            .toArray((err,docs)=>{
-                res.json(docs)
-                client.close()
-            })
-    })
-})
-
 app.get('/search_by_tag',(req,res)=>{
     var name = req.query.name
 
@@ -75,7 +103,6 @@ app.get('/search_by_tag',(req,res)=>{
             })
     })
 })
-
 app.get('/search_by_category',(req,res)=>{
     var tags = req.query.tags.split(',')
 
@@ -88,7 +115,21 @@ app.get('/search_by_category',(req,res)=>{
             })
     })
 })
+app.get('/search_by_authorlist',(req,res)=>{
+    var authorList = req.query.authors.split(',')
 
+    mc.connect(mUrl,(err,client)=>{
+        var db = client.db('eco')
+
+        db.collection('emo').find(authorList[0]=='' ? {} : {author:{$in:authorList}})
+            .toArray((err,docs)=>{
+                res.json(docs)
+                client.close()
+            })
+    })
+})
+
+// user
 app.get('/login',(req,res)=>{
     var id = req.query.id
     var pwd = req.query.pwd
@@ -123,7 +164,6 @@ app.get('/login',(req,res)=>{
         })
     })
 })
-
 app.get('/signin',(req,res)=>{
     var id = req.query.id
     var pwd = req.query.pwd
@@ -148,7 +188,6 @@ app.get('/signin',(req,res)=>{
         })
     })
 })
-
 app.get('/signout',(req,res)=>{
     var id = req.query.id
     var pwd = req.query.pwd
@@ -182,6 +221,7 @@ app.get('/signout',(req,res)=>{
     })
 })
 
+// fav
 app.get('/add_favorites',(req,res)=>{
     var auth = req.query.auth
     var imgsrc = req.query.imgsrc
@@ -208,7 +248,6 @@ app.get('/add_favorites',(req,res)=>{
         })
     })
 })
-
 app.get('/remove_favorites',(req,res)=>{
     var auth = req.query.auth
     var imgsrc = req.query.imgsrc
@@ -234,7 +273,17 @@ app.get('/remove_favorites',(req,res)=>{
         })
     })
 })
-
+// rcmd
+app.get('/rcmd_tags',(req,res)=>{
+    mc.connect(mUrl,(err,client)=>{
+        var db = client.db('eco')
+        db.collection('tag').find({})
+            .toArray((err,docs)=>{
+                res.json(shuffleArray(docs).slice(0,5))
+                client.close()
+            })
+    })
+})
 app.get('/rcmd_emoticons',(req,res)=>{
     mc.connect(mUrl,(err,client)=>{
         var db = client.db('eco')
@@ -246,20 +295,6 @@ app.get('/rcmd_emoticons',(req,res)=>{
             })
     })
 })
-
-app.get('/author_list',(req,res)=>{
-    mc.connect(mUrl,(err,client)=>{
-        var db = client.db('eco')
-
-        db.collection('emo').find({}).sort({author:1})
-            .toArray((err,docs)=>{
-                var docs = docs.map((m)=>{return{name:m.author}})
-                res.json(docs)
-                client.close()
-            })
-    })
-})
-
 app.get('/rcmd_authors',(req,res)=>{
     mc.connect(mUrl,(err,client)=>{
         var db = client.db('eco')
@@ -268,47 +303,6 @@ app.get('/rcmd_authors',(req,res)=>{
             .toArray((err,docs)=>{
                 var authors = docs.map(m=>m.author)
                 res.json(shuffleArray(authors).slice(0,5))
-                client.close()
-            })
-    })
-})
-
-app.get('/search_by_authorlist',(req,res)=>{
-    var authorList = req.query.authors.split(',')
-
-    mc.connect(mUrl,(err,client)=>{
-        var db = client.db('eco')
-
-        db.collection('emo').find(authorList[0]=='' ? {} : {author:{$in:authorList}})
-            .toArray((err,docs)=>{
-                res.json(docs)
-                client.close()
-            })
-    })
-})
-
-app.get('/home',(req,res)=>{
-    var filter2 = req.query.filter2
-
-    mc.connect(mUrl,(err,client)=>{
-        var db = client.db('eco')
-
-        db.collection('emo').find({})
-            .toArray((err,docs)=>{
-                if(filter2=='recent') docs = docs.reverse()
-
-                res.json(docs)
-                client.close()
-            })
-    })
-})
-
-app.get('/title_list',(req,res)=>{mc.connect(mUrl,(err,client)=>{
-        var db = client.db('eco')
-
-        db.collection('emo').find({})
-            .toArray((err,docs)=>{
-                res.json(docs.map((m)=>{return {name:m.title}}))
                 client.close()
             })
     })
