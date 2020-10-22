@@ -288,19 +288,22 @@ app.get('/search_by_authorlist',(req,res)=>{
 })
 
 app.get('/home',(req,res)=>{
+    var filter2 = req.query.filter2
+
     mc.connect(mUrl,(err,client)=>{
         var db = client.db('eco')
 
         db.collection('emo').find({})
             .toArray((err,docs)=>{
+                if(filter2=='recent') docs = docs.reverse()
+
                 res.json(docs)
                 client.close()
             })
     })
 })
 
-app.get('/title_list',(req,res)=>{
-    mc.connect(mUrl,(err,client)=>{
+app.get('/title_list',(req,res)=>{mc.connect(mUrl,(err,client)=>{
         var db = client.db('eco')
 
         db.collection('emo').find({})
