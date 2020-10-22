@@ -29,21 +29,6 @@ app.listen(3355, ()=>{
 })
 
 // list
-app.get('/home',(req,res)=>{
-    var filter2 = req.query.filter2
-
-    mc.connect(mUrl,(err,client)=>{
-        var db = client.db('eco')
-
-        db.collection('emo').find({})
-            .toArray((err,docs)=>{
-                if(filter2=='recent') docs = docs.reverse()
-
-                res.json(docs)
-                client.close()
-            })
-    })
-})
 app.get('/tag_list',(req,res)=>{
     mc.connect(mUrl,(err,client)=>{
         var db = client.db('eco')
@@ -73,6 +58,41 @@ app.get('/title_list',(req,res)=>{
         db.collection('emo').find({})
             .toArray((err,docs)=>{
                 res.json(docs.map((m)=>{return {name:m.title}}))
+                client.close()
+            })
+    })
+})
+app.get('/home',(req,res)=>{
+    var filter1 = req.query.filter1  // title,tag,author
+    var filter2 = req.query.filter2  // favorite,recent
+    var keyword = req.query.keyword
+    var page = req.query.page*1
+
+    mc.connect(mUrl,(err,client)=>{
+        var db = client.db('eco')
+
+        db.collection('emo').find({})
+            .toArray((err,docs)=>{
+                if(!keyword=='') {
+                    switch(filter1) {
+                        case 'title': {
+                            docs = docs.filter(item=>item.title.includes(keyword))
+                            break
+                        }
+                        case 'tag': {
+                            docs = docs.filter(item=>item.tags.includes(keyword))
+                            break
+                        }
+                        case 'author': {
+                            docs = docs.filter(item=>item.author.includes(keyword))
+                            break
+                        }
+                    }
+                }
+
+                if(filter2=='recent') docs = docs.reverse()
+
+                res.json(docs.slice(9*page,9*(page+1)))
                 client.close()
             })
     })
